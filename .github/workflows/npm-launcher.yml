@@ -1,0 +1,31 @@
+name: NPM App Launcher
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Choose action
+        required: true
+        type: choice
+        options: [start, stop, restart, status]
+
+jobs:
+  control:
+    runs-on: [self-hosted, local-launcher] # must match runner labels you set
+    steps:
+      - name: Show runner info (debug)
+        run: |
+          echo "RUNNER_OS=$RUNNER_OS"
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          which node || true
+          node -v || true
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run control script
+        env:
+          APP_DIR: /home/ubuntu/my-npm-app  # <-- change to actual app dir on runner,
+                                            # OR leave unset to use repo workspace
+        run: |
+          chmod +x scripts/npmctl.sh
+          ./scripts/npmctl.sh "${{ inputs.action }}" "${APP_DIR:-}"
