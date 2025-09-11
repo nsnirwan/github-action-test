@@ -3,9 +3,30 @@ set -euo pipefail
 
 ACTION="${1:-}"
 
-DESKTOP_USER="annex04"
-DISPLAY_NUMBER=":1"   # 👈 use :1 instead of :0
-XAUTHORITY_FILE="/run/user/1000/gdm/Xauthority"
+# --- Auto-detect DISPLAY & XAUTHORITY ---
+# Try to read from current user environment
+if [[ -n "${DISPLAY:-}" ]]; then
+  DISPLAY_NUMBER="$DISPLAY"
+else
+  # fallback: check common values
+  DISPLAY_NUMBER=":0"
+  [[ -e /tmp/.X11-unix/X1 ]] && DISPLAY_NUMBER=":1"
+fi
+
+# Try to find the logged-in desktop user
+DESKTOP_USER=$(who | awk '/(:[0-9])/{print $1; exit}')
+
+# Default XAUTHORITY file locations
+if [[ -n "${XAUTHORITY:-}" && -e "$XAUTHORITY" ]]; then
+  XAUTHORITY_FILE="$XAUTHORITY"
+elif [[ -e "/home/$DESKTOP_USER/.Xauthority" ]]; then
+  XAUTHORITY_FILE="/home/$DESKTOP_USER/.Xauthority"
+elif [[ -e "/run/user/$(id -u $DESKTOP_USER)/gdm/Xauthority" ]]; then
+  XAUTHORITY_FILE="/run/user/$(id -u $DESKTOP_USER)/gdm/Xauthority"
+else
+  echo "⚠️ Could not detect XAUTHORITY, GUI apps may not show"
+  XAUTHORITY_FILE=""
+fi
 
 export DISPLAY="$DISPLAY_NUMBER"
 export XAUTHORITY="$XAUTHORITY_FILE"
@@ -18,7 +39,7 @@ case "$ACTION" in
       echo "Calculator already running (PID $(cat "$PID_FILE"))."
       exit 0
     fi
-    echo "Starting Calculator..."
+    echo "Starting Calculator on DISPLAY=$DISPLAY with XAUTHORITY=$XAUTHORITY ..."
     nohup gnome-calculator >/dev/null 2>&1 &
     echo $! > "$PID_FILE"
     echo "Started Calculator (PID $(cat "$PID_FILE"))."
