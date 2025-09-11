@@ -4,7 +4,7 @@ set -euo pipefail
 ACTION="${1:-}"
 # optional 2nd arg = app dir override; if empty we use GITHUB_WORKSPACE or default
 ARG_APP_DIR="${2:-}"
-APP_DIR="${ARG_APP_DIR:-${GITHUB_WORKSPACE:-$HOME/my-npm-app}}"
+APP_DIR="${ARG_APP_DIR:-${GITHUB_WORKSPACE:-$HOME/annex04/projects/ASSESS-PREP-FE}}"
 LOG_DIR="${LOG_DIR:-$HOME/.npm-app-logs}"
 PID_FILE="$LOG_DIR/app.pid"
 
