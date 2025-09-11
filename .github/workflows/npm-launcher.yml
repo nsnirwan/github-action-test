@@ -24,7 +24,7 @@ jobs:
 
       - name: Run control script
         env:
-          APP_DIR: /home/ubuntu/my-npm-app  # <-- change to actual app dir on runner,
+          APP_DIR: /home/annex04/projects/ASSESS-PREP-FE  # <-- change to actual app dir on runner,
                                             # OR leave unset to use repo workspace
         run: |
           chmod +x scripts/npmctl.sh
