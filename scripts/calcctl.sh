@@ -40,8 +40,9 @@ case "$ACTION" in
       exit 0
     fi
     echo "Starting Calculator on DISPLAY=$DISPLAY with XAUTHORITY=$XAUTHORITY ..."
-    nohup gnome-calculator >/dev/null 2>&1 &
+    setsid nohup gnome-calculator >/dev/null 2>&1 < /dev/null &
     echo $! > "$PID_FILE"
+    disown
     echo "Started Calculator (PID $(cat "$PID_FILE"))."
     ;;
   stop)
