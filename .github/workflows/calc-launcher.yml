@@ -17,11 +17,12 @@ jobs:
 
       - name: Make calcctl executable
         run: chmod +x scripts/calcctl.sh
-      - run: |
-        echo "DISPLAY=$DISPLAY"
-        echo "XAUTHORITY=$XAUTHORITY"
-        who
-        ls -l /tmp/.X11-unix
+      - name: Make debug
+        run: |
+          echo "DISPLAY=$DISPLAY"
+          echo "XAUTHORITY=$XAUTHORITY"
+          who
+          ls -l /tmp/.X11-unix
 
       - name: Control Calculator
         run: ./scripts/calcctl.sh "${{ inputs.action }}"
