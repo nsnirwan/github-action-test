@@ -28,4 +28,4 @@ jobs:
                                             # OR leave unset to use repo workspace
         run: |
           chmod +x scripts/appctl.sh
-          ./scripts/npmctl.sh "${{ inputs.action }}" "${APP_DIR:-}"
+          ./scripts/appctl.sh "${{ inputs.action }}" "${APP_DIR:-}"
