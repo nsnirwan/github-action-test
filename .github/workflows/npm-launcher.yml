@@ -27,5 +27,5 @@ jobs:
           APP_DIR: /home/annex04/projects/ASSESS-PREP-FE  # <-- change to actual app dir on runner,
                                             # OR leave unset to use repo workspace
         run: |
-          chmod +x scripts/npmctl.sh
+          chmod +x scripts/appctl.sh
           ./scripts/npmctl.sh "${{ inputs.action }}" "${APP_DIR:-}"
