@@ -11,7 +11,7 @@ on:
 
 jobs:
   control:
-    runs-on: [self-hosted, local-launcher] # must match runner labels you set
+    runs-on: [self-hosted, linux, x64] # must match runner labels you set
     steps:
       - name: Show runner info (debug)
         run: |
