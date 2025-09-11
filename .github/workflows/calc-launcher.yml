@@ -1,3 +1,13 @@
+name: CALC App Launcher
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Choose action
+        required: true
+        type: choice
+        options: [start, stop, restart, status]
 jobs:
   control:
     runs-on: [self-hosted, linux, x64]
