@@ -1,0 +1,11 @@
+jobs:
+  control:
+    runs-on: [self-hosted, local-launcher]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make calcctl executable
+        run: chmod +x scripts/calcctl.sh
+
+      - name: Control Calculator
+        run: ./scripts/calcctl.sh "${{ inputs.action }}"
