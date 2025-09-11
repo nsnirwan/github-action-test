@@ -3,12 +3,10 @@ set -euo pipefail
 
 ACTION="${1:-}"
 
-# 👇 Change this to your actual Ubuntu desktop login user
 DESKTOP_USER="annex04"
-DISPLAY_NUMBER=":0"
-XAUTHORITY_FILE="/home/$DESKTOP_USER/.Xauthority"
+DISPLAY_NUMBER=":1"   # 👈 use :1 instead of :0
+XAUTHORITY_FILE="/run/user/1000/gdm/Xauthority"
 
-# Export environment so GUI apps know where to open
 export DISPLAY="$DISPLAY_NUMBER"
 export XAUTHORITY="$XAUTHORITY_FILE"
 
