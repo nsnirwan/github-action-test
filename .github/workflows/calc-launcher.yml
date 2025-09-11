@@ -8,6 +8,7 @@ on:
         required: true
         type: choice
         options: [start, stop, restart, status]
+
 jobs:
   control:
     runs-on: [self-hosted, linux, x64]
@@ -16,6 +17,11 @@ jobs:
 
       - name: Make calcctl executable
         run: chmod +x scripts/calcctl.sh
+      - run: |
+        echo "DISPLAY=$DISPLAY"
+        echo "XAUTHORITY=$XAUTHORITY"
+        who
+        ls -l /tmp/.X11-unix
 
       - name: Control Calculator
         run: ./scripts/calcctl.sh "${{ inputs.action }}"
