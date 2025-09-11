@@ -2,16 +2,17 @@
 set -euo pipefail
 
 ACTION="${1:-}"
-APP="gnome-calculator"
 
-# where to store PID file
-LOG_DIR="$HOME/.calc-app-logs"
-PID_FILE="$LOG_DIR/calc.pid"
+# 👇 Change this to your actual Ubuntu desktop login user
+DESKTOP_USER="annex04"
+DISPLAY_NUMBER=":0"
+XAUTHORITY_FILE="/home/$DESKTOP_USER/.Xauthority"
 
-# which display to use (default :0, adjust if needed)
-DISPLAY_NUMBER="${DISPLAY_NUMBER:-:0}"
+# Export environment so GUI apps know where to open
+export DISPLAY="$DISPLAY_NUMBER"
+export XAUTHORITY="$XAUTHORITY_FILE"
 
-mkdir -p "$LOG_DIR"
+PID_FILE="/tmp/calc.pid"
 
 case "$ACTION" in
   start)
@@ -19,20 +20,20 @@ case "$ACTION" in
       echo "Calculator already running (PID $(cat "$PID_FILE"))."
       exit 0
     fi
-    echo "Starting Calculator on DISPLAY=$DISPLAY_NUMBER..."
-    DISPLAY="$DISPLAY_NUMBER" nohup "$APP" >/dev/null 2>&1 &
+    echo "Starting Calculator..."
+    nohup gnome-calculator >/dev/null 2>&1 &
     echo $! > "$PID_FILE"
-    echo "Started, PID $(cat "$PID_FILE")"
+    echo "Started Calculator (PID $(cat "$PID_FILE"))."
     ;;
   stop)
     if [ -f "$PID_FILE" ]; then
-      echo "Stopping Calculator PID $(cat "$PID_FILE")..."
+      echo "Stopping Calculator (PID $(cat "$PID_FILE"))..."
       kill "$(cat "$PID_FILE")" || true
       rm -f "$PID_FILE"
       echo "Stopped."
     else
-      echo "No PID file found; trying pkill..."
-      pkill -f "$APP" || true
+      echo "No PID file found, trying pkill..."
+      pkill -f "gnome-calculator" || true
     fi
     ;;
   restart)
