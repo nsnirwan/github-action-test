@@ -27,6 +27,9 @@ jobs:
 
       - name: 🚦 Run Appium Action
         run: ./appium-server.sh "${{ github.event.inputs.action }}"
+      - name: 📱 Launch iOS App
+        if: ${{ github.event.inputs.action == 'start' }}
+        run: node launch-ios-app.js
 
       - name: 📄 Upload Appium Logs (if any)
         if: always()
