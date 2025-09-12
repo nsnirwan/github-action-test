@@ -4,10 +4,11 @@ const opts = {
   path: "/wd/hub",
   port: 4723,
   capabilities: {
-    platformName: "iOS",            // ✅ must be "iOS"
-    automationName: "XCUITest",     // ✅ correct driver
+
+    platformName: "Mac",            // ✅ must be "iOS"
+    automationName: "Mac2",     // ✅ correct driver
     deviceName: "iPhone 14",        // match installed simulator
-    platformVersion: "17.0",        // check `xcrun simctl list` for actual version
+    platformVersion: "13.4",        // check `xcrun simctl list` for actual version
     app: "/Applications/AssessPrep.app", // must be a valid .app or .ipa
     noReset: true
   }
