@@ -40,7 +40,7 @@ case "$ACTION" in
     setsid nohup gnome-calculator > /tmp/calc-out.log 2>&1 < /dev/null &
     echo $! > "$PID_FILE"
     disown
-    sleep 2
+    sleep 10
     if ps -p "$(cat "$PID_FILE")" >/dev/null 2>&1; then
       echo "✅ Started Calculator (PID $(cat "$PID_FILE"))."
     else
