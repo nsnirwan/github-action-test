@@ -28,7 +28,7 @@ jobs:
           # This ensures GUI apps can connect
           export DISPLAY=:1
           xhost +SI:localuser:annex04
-     - name: Debug who and env
+      - name: Debug who and env
         run: |
           echo "WHOAMI=$(whoami)"
           id
