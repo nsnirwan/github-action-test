@@ -29,4 +29,4 @@ jobs:
           export DISPLAY=:1
           xhost +SI:localuser:annex04
       - name: Control Calculator
-        run: scripts/calcctl.sh ${{ inputs.action }}
+        run: ./scripts/calcctl.sh ${{ inputs.action }}
