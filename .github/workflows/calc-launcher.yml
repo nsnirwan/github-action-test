@@ -25,4 +25,4 @@ jobs:
           ls -l /tmp/.X11-unix
 
       - name: Control Calculator
-        run: ./scripts/calcctl.sh ${{ inputs.action }}
+        run: scripts/calcctl.sh ${{ inputs.action }}
