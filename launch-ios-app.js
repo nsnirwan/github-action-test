@@ -1,20 +1,24 @@
 const wd = require("wd");
 
-const driver = wd.promiseChainRemote("http://localhost:4723/wd/hub");
-
-async function run() {
-  const desiredCaps = {
-    platformName: "mac",
-    automationName: "XCUITest",
-    deviceName: "iPhone 14",            // Or any simulator/device name you have
-    platformVersion: "26.0",            // Adjust to your simulator's version
-    app: "/Applications/AssessPrep.app",     // Replace with full absolute path
+const opts = {
+  path: "/wd/hub",
+  port: 4723,
+  capabilities: {
+    platformName: "iOS",            // ✅ must be "iOS"
+    automationName: "XCUITest",     // ✅ correct driver
+    deviceName: "iPhone 14",        // match installed simulator
+    platformVersion: "17.0",        // check `xcrun simctl list` for actual version
+    app: "/Applications/AssessPrep.app", // must be a valid .app or .ipa
     noReset: true
-  };
+  }
+};
 
-  await driver.init(desiredCaps);
-  console.log("✅ AssessPrep app launched on iOS");
+async function main() {
+  const driver = wd.promiseChainRemote(opts);
+  await driver.init(opts.capabilities);
+  console.log("✅ App launched!");
   await driver.quit();
 }
 
-run().catch(console.error);
+main();
+
