@@ -35,4 +35,7 @@ jobs:
           echo "DISPLAY=$DISPLAY"
           echo "XAUTHORITY=$XAUTHORITY"
       - name: Control Calculator
+        env:
+          DISPLAY: ":1"
+          XAUTHORITY: "/run/user/1000/gdm/Xauthority"
         run: ./scripts/calcctl.sh ${{ inputs.action }}
