@@ -23,6 +23,10 @@ jobs:
           echo "XAUTHORITY=$XAUTHORITY"
           who
           ls -l /tmp/.X11-unix
-
+      - name: Allow annex04 to access X server
+        run: |
+          # This ensures GUI apps can connect
+          export DISPLAY=:1
+          xhost +SI:localuser:annex04
       - name: Control Calculator
         run: scripts/calcctl.sh ${{ inputs.action }}
