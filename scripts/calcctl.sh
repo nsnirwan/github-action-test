@@ -35,22 +35,16 @@ PID_FILE="/tmp/calc.pid"
 
 case "$ACTION" in
   start)
-    echo "Launching Calculator on $DISPLAY ..."
+    echo "Starting Calculator on DISPLAY=$DISPLAY with XAUTHORITY=$XAUTHORITY ..."
     nohup gnome-calculator > /tmp/calc-out.log 2>&1 &
     echo $! > "$PID_FILE"
     sleep 2
     if ! ps -p "$(cat "$PID_FILE")" >/dev/null; then
       echo "❌ Calculator crashed. Log:"
       cat /tmp/calc-out.log
+      exit 1
     fi
-    if [ -f "$PID_FILE" ] && ps -p "$(cat "$PID_FILE")" >/dev/null 2>&1; then
-      echo "Calculator already running (PID $(cat "$PID_FILE"))."
-      exit 0
-    fi
-    echo "Starting Calculator on DISPLAY=$DISPLAY with XAUTHORITY=$XAUTHORITY ..."
-    nohup gnome-calculator >/dev/null 2>&1 &
-    echo $! > "$PID_FILE"
-    echo "Started Calculator (PID $(cat "$PID_FILE"))."
+    echo "✅ Started Calculator (PID $(cat "$PID_FILE"))."
     ;;
   stop)
     if [ -f "$PID_FILE" ]; then
