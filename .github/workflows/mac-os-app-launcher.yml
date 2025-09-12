@@ -1,0 +1,41 @@
+name: MAC OS App Launcher
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Choose action
+        required: true
+        type: choice
+        options: [start, stop, restart, status]
+
+jobs:
+  control:
+    runs-on: [self-hosted, macOS, x64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make calcctl executable
+        run: chmod +x scripts/calcctl.sh
+      - name: Make debug
+        run: |
+          echo "DISPLAY=$DISPLAY"
+          echo "XAUTHORITY=$XAUTHORITY"
+          who
+          ls -l /tmp/.X11-unix
+      - name: Allow annex04 to access X server
+        run: |
+          # This ensures GUI apps can connect
+          export DISPLAY=:1
+          xhost +SI:localuser:annex04
+      - name: Debug who and env
+        run: |
+          echo "WHOAMI=$(whoami)"
+          id
+          echo "DISPLAY=$DISPLAY"
+          echo "XAUTHORITY=$XAUTHORITY"
+      - name: Control Calculator
+        env:
+          DISPLAY: ":1"
+          XAUTHORITY: "/run/user/1000/gdm/Xauthority"
+        run: ./scripts/calcctl.sh ${{ inputs.action }}
