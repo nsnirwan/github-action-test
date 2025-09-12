@@ -1,0 +1,36 @@
+name: Appium Server Control
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Choose action
+        required: true
+        type: choice
+        options: [start, stop, restart, status]
+
+jobs:
+  appium-server:
+    runs-on: [self-hosted, macOS, X64]
+
+    steps:
+      - name: 🧾 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 🛡️ Make Script Executable
+        run: chmod +x appium-server.sh
+
+      - name: 🚦 Run Appium Action
+        run: ./appium-server.sh "${{ github.event.inputs.action }}"
+
+      - name: 📄 Upload Appium Logs (if any)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-log
+          path: appium.log
