@@ -1,41 +1,61 @@
-name: MAC OS App Launcher
+name: Appium Test on Mac Mini
 
 on:
   workflow_dispatch:
-    inputs:
-      action:
-        description: Choose action
-        required: true
-        type: choice
-        options: [start, stop, restart, status]
 
 jobs:
-  control:
-    runs-on: [self-hosted, macOS, x64]
-    steps:
-      - uses: actions/checkout@v4
+  run-appium-tests:
+    runs-on: [self-hosted, macOS, X64]
 
-      - name: Make calcctl executable
-        run: chmod +x scripts/calcctl.sh
-      - name: Make debug
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # adjust as needed
+
+      - name: Install Appium (if not already installed)
         run: |
-          echo "DISPLAY=$DISPLAY"
-          echo "XAUTHORITY=$XAUTHORITY"
-          who
-          ls -l /tmp/.X11-unix
-      - name: Allow annex04 to access X server
+          if ! command -v appium &> /dev/null; then
+            npm install -g appium
+          fi
+
+      - name: Install Appium Drivers and Dependencies
         run: |
-          # This ensures GUI apps can connect
-          export DISPLAY=:1
-          xhost +SI:localuser:annex04
-      - name: Debug who and env
+          appium driver install xcuitest || true
+          # Add other drivers or tools here as needed
+
+      - name: Start Appium Server
+        run: ./start-appium.sh
+
+      - name: Wait for Appium to Start
         run: |
-          echo "WHOAMI=$(whoami)"
-          id
-          echo "DISPLAY=$DISPLAY"
-          echo "XAUTHORITY=$XAUTHORITY"
-      - name: Control Calculator
-        env:
-          DISPLAY: ":1"
-          XAUTHORITY: "/run/user/1000/gdm/Xauthority"
-        run: ./scripts/calcctl.sh ${{ inputs.action }}
+          for i in {1..10}; do
+            echo "Checking Appium server status..."
+            if curl -s http://localhost:4723/wd/hub/status | grep -q "Appium"; then
+              echo "Appium is up!"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Run Appium Tests
+        run: |
+          echo "🔧 Place your test commands here"
+          # Example using Mocha + WebDriverIO or any test runner:
+          # npm install
+          # npm test
+          # ./gradlew connectedAndroidTest (if testing Android)
+
+      - name: Stop Appium Server
+        if: always()
+        run: ./stop-appium.sh
+
+      - name: Upload Appium Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-log
+          path: appium.log
