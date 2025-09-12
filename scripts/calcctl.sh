@@ -36,7 +36,8 @@ PID_FILE="/tmp/calc.pid"
 case "$ACTION" in
   start)
     echo "Starting Calculator on DISPLAY=$DISPLAY with XAUTHORITY=$XAUTHORITY ..."
-    nohup gnome-calculator > /tmp/calc-out.log 2>&1 &
+    setsid nohup gnome-calculator > /tmp/calc-out.log 2>&1 < /dev/null &
+    disown
     echo $! > "$PID_FILE"
     sleep 2
     if ! ps -p "$(cat "$PID_FILE")" >/dev/null; then
