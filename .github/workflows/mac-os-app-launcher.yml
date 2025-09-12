@@ -21,12 +21,16 @@ jobs:
           if ! command -v appium &> /dev/null; then
             npm install -g appium
           fi
-
-      - name: Install Appium Drivers and Dependencies
+      - name: 📡 Ensure XCUITest Driver is Installed
         run: |
-          appium driver install xcuitest || true
-          # Add other drivers or tools here as needed
-
+          if ! appium driver list --installed | grep -q "xcuitest"; then
+            echo "🔧 Installing XCUITest driver..."
+            appium driver install xcuitest
+          else
+            echo "✅ XCUITest driver already installed."
+          fi
+      - name: 🛡️ Ensure Scripts Are Executable
+        run: chmod +x start-appium.sh stop-appium.sh
       - name: Start Appium Server
         run: ./start-appium.sh
 
