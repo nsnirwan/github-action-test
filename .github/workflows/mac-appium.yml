@@ -22,14 +22,17 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install Dependencies 
+        run: npm install wd
+        
       - name: 🛡️ Make Script Executable
-        run: chmod +x appium-server.sh
+        run: chmod +x appium-server.sh launch-ios-app.js 
 
       - name: 🚦 Run Appium Action
         run: ./appium-server.sh "${{ github.event.inputs.action }}"
       - name: 📱 Launch iOS App
         if: ${{ github.event.inputs.action == 'start' }}
-        run: node launch-ios-app.js
+        run: node ./launch-ios-app.js
 
       - name: 📄 Upload Appium Logs (if any)
         if: always()
