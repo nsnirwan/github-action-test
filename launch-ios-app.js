@@ -37,7 +37,17 @@ async function launchApp() {
   };
 
   await waitForServer();
-  await driver.init(caps);
+  await driver.init({
+    capabilities: {
+      alwaysMatch: {
+        platformName: "mac",
+        "appium:automationName": "Mac2",
+        "appium:bundleId": "com.codeyug.assessprep-osx"
+      },
+      firstMatch: [{}]
+    }
+  });
+
   console.log("🚀 App launched successfully!");
 }
 
