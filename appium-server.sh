@@ -52,8 +52,8 @@ stop_appium() {
 }
 
 status_appium() {
-  echo "🔍 Checking Appium status at http://localhost:4723/wd/hub/status"
-  if curl -s http://localhost:4723/wd/hub/status | grep -q "Appium"; then
+  echo "🔍 Checking Appium status at http://localhost:4723/status"
+  if curl -s http://localhost:4723/status | grep -q "Appium"; then
     echo "✅ Appium is running!"
   else
     echo "❌ Appium is not responding on port 4723."
