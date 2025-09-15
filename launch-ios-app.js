@@ -27,33 +27,64 @@ async function waitForServer(timeout = 30000, interval = 2000) {
   throw new Error("❌ Appium server did not become ready in time.");
 }
 
-
-import { remote } from 'webdriverio';
+const { remote } = require('webdriverio');
 
 async function launchApp() {
-  const driver = await remote({
-    hostname: '127.0.0.1',
-    port: 4723,
-    path: '/',
-    logLevel: 'info',
-    capabilities: {
-      platformName: 'Mac',
-      'appium:automationName': 'Mac2',
-      'appium:bundleId': 'com.codeyug.assessprep-osx'
-    }
-  });
+  try {
+    const driver = await remote({
+      hostname: '127.0.0.1',
+      port: 4723,
+      path: '/',
+      logLevel: 'info',
+      capabilities: {
+        platformName: 'Mac',
+        'appium:automationName': 'Mac2',
+        'appium:bundleId': 'com.codeyug.assessprep-osx'
+      }
+    });
 
-  console.log("✅ App launched!");
+    console.log("✅ App launched!");
 
-  // Example: wait and then close
-  await driver.pause(3000);
-  await driver.deleteSession();
+    // Wait 3 seconds so you can see it running
+    await driver.pause(3000);
+
+    // Close app
+    await driver.deleteSession();
+    console.log("✅ App closed!");
+  } catch (err) {
+    console.error("❌ Failed to launch app:", err.message);
+    process.exit(1);
+  }
 }
 
-launchApp().catch(err => {
-  console.error("❌ Failed to launch app:", err.message);
-  process.exit(1);
-});
+launchApp();
+
+// import { remote } from 'webdriverio';
+
+// async function launchApp() {
+//   const driver = await remote({
+//     hostname: '127.0.0.1',
+//     port: 4723,
+//     path: '/',
+//     logLevel: 'info',
+//     capabilities: {
+//       platformName: 'Mac',
+//       'appium:automationName': 'Mac2',
+//       'appium:bundleId': 'com.codeyug.assessprep-osx'
+//     }
+//   });
+
+//   console.log("✅ App launched!");
+
+//   // Example: wait and then close
+//   await driver.pause(3000);
+//   await driver.deleteSession();
+// }
+
+// launchApp().catch(err => {
+//   console.error("❌ Failed to launch app:", err.message);
+//   process.exit(1);
+// });
 
 
 
