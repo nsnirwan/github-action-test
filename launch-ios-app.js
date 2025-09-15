@@ -49,8 +49,8 @@ async function launchApp() {
     await driver.pause(3000);
 
     // Close app
-    await driver.deleteSession();
-    console.log("✅ App closed!");
+    // await driver.deleteSession();
+    // console.log("✅ App closed!");
   } catch (err) {
     console.error("❌ Failed to launch app:", err.message);
     process.exit(1);
