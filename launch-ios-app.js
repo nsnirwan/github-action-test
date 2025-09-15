@@ -1,21 +1,16 @@
 const wd = require("wd");
 
-const opts = {
-  path: "/",
-  port: 4723,
-  capabilities: {
-    platformName: "Mac",            // ✅ must be "iOS"
-    automationName: "Mac2",     // ✅ correct driver
-    bundleId: "com.codeyug.assessprep-osx",
-  }
-};
+async function launchApp() {
+  const driver = wd.promiseChainRemote("http://127.0.0.1:4723");
 
-async function main() {
-  const driver = wd.promiseChainRemote(opts);
-  await driver.init(opts.capabilities);
-  console.log("✅ App launched!");
-  await driver.quit();
+  const caps = {
+    platformName: "mac",
+    "appium:automationName": "Mac2",
+    "appium:bundleId": "com.codeyug.assessprep-osx"
+  };
+
+  await driver.init(caps);
+  console.log("App launched!");
 }
 
-main();
-
+launchApp().catch(console.error);
