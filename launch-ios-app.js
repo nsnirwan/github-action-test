@@ -4,7 +4,6 @@ const opts = {
   path: "/",
   port: 4723,
   capabilities: {
-
     platformName: "Mac",            // ✅ must be "iOS"
     automationName: "Mac2",     // ✅ correct driver
     bundleId: "com.codeyug.assessprep-osx",
