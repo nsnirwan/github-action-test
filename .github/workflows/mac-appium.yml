@@ -22,10 +22,12 @@ jobs:
         with:
           node-version: '18'
 
-      # - name: Install Dependencies 
-      #   run: npm install wd --legacy-peer-deps
-      - name: npm uninstall wdio-chromedriver-service
-        run: npm uninstall wdio-chromedriver-service
+      - name: Install Dependencies 
+        run: npm install wd --legacy-peer-deps
+      - name: Install webdriverio 
+        run: npm install webdriverio --save
+      # - name: npm uninstall wdio-chromedriver-service
+      #   run: npm uninstall wdio-chromedriver-service
         
       - name: Install Appium Client
         run: npm install appium-client --save
