@@ -29,8 +29,8 @@ jobs:
       # - name: npm uninstall wdio-chromedriver-service
       #   run: npm uninstall wdio-chromedriver-service
         
-      - name: Install Appium Client
-        run: npm install appium-client --save
+      # - name: Install Appium Client
+      #   run: npm install appium-client --save
 
       - name: 🛡️ Make Script Executable
         run: chmod +x appium-server.sh launch-ios-app.js 
