@@ -25,7 +25,7 @@ jobs:
       # - name: Install Dependencies 
       #   run: npm install wd --legacy-peer-deps
       - name: Install Appium Client
-        run: npm install appium --save
+        run: npm install appium-client --save
 
 
       - name: 🛡️ Make Script Executable
