@@ -59,6 +59,7 @@ async function launchApp() {
 
 launchApp();
 
+
 // import { remote } from 'webdriverio';
 
 // async function launchApp() {
