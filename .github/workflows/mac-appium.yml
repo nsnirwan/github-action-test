@@ -22,8 +22,11 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies 
-        run: npm install wd --legacy-peer-deps
+      # - name: Install Dependencies 
+      #   run: npm install wd --legacy-peer-deps
+      - name: Install Appium Client
+        run: npm install appium --save
+
 
       - name: 🛡️ Make Script Executable
         run: chmod +x appium-server.sh launch-ios-app.js 
