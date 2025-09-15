@@ -28,7 +28,8 @@ async function waitForServer(timeout = 30000, interval = 2000) {
 }
 
 
-const { remote } = require("appium");
+const { remote } = require("appium-client");
+
 
 async function launchApp() {
   try {
