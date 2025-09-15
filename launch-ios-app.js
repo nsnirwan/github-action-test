@@ -28,32 +28,61 @@ async function waitForServer(timeout = 30000, interval = 2000) {
 }
 
 
-const { remote } = require("appium-client");
-
+import { remote } from 'webdriverio';
 
 async function launchApp() {
-  try {
-    const driver = await remote({
-      protocol: "http",
-      hostname: "127.0.0.1",
-      port: 4723,
-      path: "/",
-      capabilities: {
-        platformName: "mac",
-        "appium:automationName": "Mac2",
-        "appium:bundleId": "com.codeyug.assessprep-osx"
-      }
-    });
+  const driver = await remote({
+    hostname: '127.0.0.1',
+    port: 4723,
+    path: '/',
+    logLevel: 'info',
+    capabilities: {
+      platformName: 'Mac',
+      'appium:automationName': 'Mac2',
+      'appium:bundleId': 'com.codeyug.assessprep-osx'
+    }
+  });
 
-    console.log("✅ App launched successfully!");
-    await driver.deleteSession();
-  } catch (err) {
-    console.error("❌ Failed to launch app:", err.message);
-    process.exit(1);
-  }
+  console.log("✅ App launched!");
+
+  // Example: wait and then close
+  await driver.pause(3000);
+  await driver.deleteSession();
 }
 
-launchApp();
+launchApp().catch(err => {
+  console.error("❌ Failed to launch app:", err.message);
+  process.exit(1);
+});
+
+
+
+// const { remote } = require("appium-client");
+
+
+// async function launchApp() {
+//   try {
+//     const driver = await remote({
+//       protocol: "http",
+//       hostname: "127.0.0.1",
+//       port: 4723,
+//       path: "/",
+//       capabilities: {
+//         platformName: "mac",
+//         "appium:automationName": "Mac2",
+//         "appium:bundleId": "com.codeyug.assessprep-osx"
+//       }
+//     });
+
+//     console.log("✅ App launched successfully!");
+//     await driver.deleteSession();
+//   } catch (err) {
+//     console.error("❌ Failed to launch app:", err.message);
+//     process.exit(1);
+//   }
+// }
+
+// launchApp();
 
 
 // async function launchApp() {
