@@ -47,9 +47,9 @@ jobs:
         if: ${{ github.event.inputs.action == 'stop' }}
         run: node stop-ios-app.js
 
-      - name: 📄 Upload Appium Logs (if any)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: appium-log
-          path: appium.log
+      # - name: 📄 Upload Appium Logs (if any)
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: appium-log
+      #     path: appium.log
