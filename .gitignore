@@ -1,0 +1,51 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+appium.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+#runner
+.runner
+.credentials
+.cache/
+.cucumber-report/
+.credentials_rsaparams
+bin/
+.path
+_work/
+config.sh
+env.sh
+externals/
+run-helper.sh
+run-helper.sh.template
+run-helpler.cmd.template
+run.sh
+safe_sleep.sh
+svc.sh
+_diag/
+run-helper.cmd.template
+
+
+
+

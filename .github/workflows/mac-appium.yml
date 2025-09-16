@@ -18,13 +18,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: ⚙️ Setup Node.js
+        if: ${{ github.event.inputs.action == 'start' }}
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
       - name: Install Dependencies 
+        if: ${{ github.event.inputs.action == 'start' }}
         run: npm install wd --legacy-peer-deps
       - name: Install webdriverio 
+        if: ${{ github.event.inputs.action == 'start' }}
         run: npm install webdriverio --save
       # - name: npm uninstall wdio-chromedriver-service
       #   run: npm uninstall wdio-chromedriver-service
@@ -33,13 +36,16 @@ jobs:
       #   run: npm install appium-client --save
 
       - name: 🛡️ Make Script Executable
-        run: chmod +x appium-server.sh launch-ios-app.js 
+        run: chmod +x appium-server.sh launch-ios-app.js stop-ios-app.js 
 
       - name: 🚦 Run Appium Action
         run: ./appium-server.sh "${{ github.event.inputs.action }}"
       - name: 📱 Launch iOS App
         if: ${{ github.event.inputs.action == 'start' }}
         run: node launch-ios-app.js
+      - name: 🛑 Stop iOS App
+        if: ${{ github.event.inputs.action == 'stop' }}
+        run: node stop-ios-app.js
 
       - name: 📄 Upload Appium Logs (if any)
         if: always()
