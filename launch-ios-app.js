@@ -39,8 +39,8 @@ async function launchApp() {
       capabilities: {
         platformName: 'Mac',
         'appium:automationName': 'Mac2',
-        // 'appium:bundleId': 'com.codeyug.assessprep-osx'
-        'appium:app': '/Users/rajeshap/Documents/narendra/AssessPrep.app'
+        'appium:bundleId': 'com.codeyug.assessprep-osx'
+        // 'appium:app': '/Users/rajeshap/Documents/narendra/AssessPrep.app'
       }
     });
 
