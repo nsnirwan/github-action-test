@@ -37,7 +37,8 @@ jobs:
 
       - name: 🛡️ Make Script Executable
         run: chmod +x appium-server.sh launch-ios-app.js stop-ios-app.js 
-
+      - name: 🛑 Kill all running Appium servers
+        run: pkill -f appium || true
       - name: 🚦 Run Appium Action
         run: ./appium-server.sh "${{ github.event.inputs.action }}"
       - name: 📱 Launch iOS App
