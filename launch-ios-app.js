@@ -50,27 +50,27 @@ async function launchApp() {
     console.log("✅ App launched!");
     try {
 
-      async function typeText(element, text, delay = 80) {
+      async function typeText(element, text) {
         await element.click();
+        await element.clearValue();
       
-        // 1️⃣ Try fast setValue first
+        // try normal sendKeys
         await element.setValue(text);
         let currentValue = await element.getText();
       
         if (currentValue !== text) {
           console.warn(`⚠️ setValue failed (got "${currentValue}"), retrying with macOS keys...`);
-          await element.clearValue();
       
-          // 2️⃣ Use macOS-level keystrokes
-          await driver.execute('macos: keys', { keys: text });
+          const chars = text.split('');
+          await driver.execute('macos: keys', [{ keys: chars }]);
       
-          // 3️⃣ Verify again
           currentValue = await element.getText();
           if (currentValue !== text) {
-            console.error(`❌ Even macos: keys failed, last value: "${currentValue}"`);
+            console.error(`❌ Still mismatch, got "${currentValue}"`);
           }
         }
       }
+      
       // Wait for login screen to appear      
       
 
