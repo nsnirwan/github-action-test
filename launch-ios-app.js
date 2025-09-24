@@ -52,27 +52,22 @@ async function launchApp() {
       // Example selectors (update these based on your app's accessibilityIds or names)
       const userNameTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[1]/XCUIElementTypeTextField/XCUIElementTypeGroup'
 
-      // 🔹 Get all visible text fields on the screen
-      const textFields = await driver.$$('-ios class chain:**/XCUIElementTypeTextField');
+      // 🔹 Email field
+      const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
+      await emailField.click();
+      await emailField.replaceValue('studentdp1@testing.com');
 
-      // Defensive check
-      if (textFields.length < 2) {
-        throw new Error(`Expected at least 2 text fields, but found ${textFields.length}`);
-      }
+      // 🔹 Password field (SecureTextField!)
+      const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
+      await passwordField.click();
+      await passwordField.replaceValue('rockpaper');
 
-      // 🔹 Enter username (first field)
-      await textFields[0].click();
-      await textFields[0].replaceValue('studentdp1@testing.com');
+      // 🔹 Login button
+      const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
+      await loginBtn.click();
 
-      // 🔹 Enter password (second field)
-      await textFields[1].click();
-      await textFields[1].replaceValue('rockpaper');
+      console.log("✅ Login flow completed");
 
-      // 🔹 Locate and click the login button
-      const loginButton = await driver.$(
-        '-ios class chain:**/XCUIElementTypeButton[`label == "Login"`]'
-      );
-      await loginButton.click();
 
       console.log("✅ Login flow completed");
       
