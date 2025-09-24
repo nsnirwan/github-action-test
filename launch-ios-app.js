@@ -50,44 +50,30 @@ async function launchApp() {
     console.log("✅ App launched!");
     try {
 
-      async function typeText(element, text) {
-        await element.click();
-        await element.clearValue();
+      describe("Login Test", () => {
+        it("should enter email, password and click login", async () => {
+          // Locate Email field by placeholder
+          const emailField = await $('-ios predicate string:type == "XCUIElementTypeTextField" AND placeholderValue == "Email"');
+          await emailField.waitForDisplayed({ timeout: 10000 });
+          await emailField.click();
+          await emailField.setValue("studentdp1@testing.com");
       
-        // try normal sendKeys
-        await element.setValue(text);
-        let currentValue = await element.getText();
+          // Locate Password field by placeholder
+          const passwordField = await $('-ios predicate string:type == "XCUIElementTypeSecureTextField" AND placeholderValue == "Password"');
+          await passwordField.waitForDisplayed({ timeout: 10000 });
+          await passwordField.click();
+          await passwordField.setValue("rockpaper");
       
-        if (currentValue !== text) {
-          console.warn(`⚠️ setValue failed (got "${currentValue}"), retrying with macOS keys...`);
+          // Locate Login button by title
+          const loginBtn = await $('-ios predicate string:type == "XCUIElementTypeButton" AND title == "Login"');
+          await loginBtn.waitForDisplayed({ timeout: 10000 });
+          await loginBtn.click();
       
-          const chars = text.split('');
-          await driver.execute('macos: keys', [{ keys: chars }]);
+          // Optional: verify navigation or error
+          await driver.pause(3000);
+        });
+      });
       
-          currentValue = await element.getText();
-          if (currentValue !== text) {
-            console.error(`❌ Still mismatch, got "${currentValue}"`);
-          }
-        }
-      }
-      
-      // Wait for login screen to appear      
-      
-
-      
-      // Email
-      const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
-      await typeText(emailField, 'studentdp1@testing.com');
-
-      // Password
-      const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
-      await typeText(passwordField, 'rockpaper');
-
-      // Login
-      const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
-      await loginBtn.click();
-
-      console.log("✅ Login flow completed");
 
 
 
