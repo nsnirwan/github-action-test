@@ -32,7 +32,7 @@ const { remote } = require('webdriverio');
 async function launchApp() {
   try {
     const driver = await remote({
-      hostname: 'http://127.0.0.1',
+      hostname: '127.0.0.1',
       port: 4723,
       path: '/',
       logLevel: 'info',
@@ -45,7 +45,8 @@ async function launchApp() {
     });
 
 
-
+    // Wait 3 seconds so you can see it running
+    await driver.pause(3000);
     console.log("✅ App launched!");
     try {
       // Example selectors (update these based on your app's accessibilityIds or names)
@@ -69,8 +70,7 @@ async function launchApp() {
       console.error('❌ Test failed:', err);
     }
 
-    // Wait 3 seconds so you can see it running
-    await driver.pause(3000);
+    
 
     // Close app
     // await driver.deleteSession();
