@@ -50,23 +50,46 @@ async function launchApp() {
     console.log("✅ App launched!");
     try {
 
+      // Slow typing helper
+      async function slowType(element, text, delay = 100) {
+        await element.click();
+        for (const char of text) {
+          await element.addValue(char);
+          await new Promise(r => setTimeout(r, delay));
+        }
+      }
+
+      // Hybrid: try setValue, fallback to slowType if needed
+      async function typeText(element, text, delay = 100) {
+        await element.click();
+
+        // 1️⃣ Try fast method first
+        await element.setValue(text);
+
+        // 2️⃣ Verify typed value
+        const currentValue = await element.getText();
+        if (currentValue !== text) {
+          console.warn(`⚠️ setValue failed (got "${currentValue}"), retrying with slowType...`);
+          await element.clearValue();         // clear first
+          await slowType(element, text, delay);
+        }
+      }
+
       
-      
-      // 🔹 Email field (directly the TextField!)
+      // Email field
       const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
-      emailField.click();
-      await emailField.setValue('studentdp1@testing.com');
-      
-      // 🔹 Password field (directly the SecureTextField!)
+      await typeText(emailField, 'studentdp1@testing.com', 80);
+
+      // Password field
       const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
-      passwordField.click();
-      await passwordField.setValue('rockpaper');
-      
-      // 🔹 Login button
+      await typeText(passwordField, 'rockpaper', 80);
+
+      // Login button
       const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
       await loginBtn.click();
-      
+
       console.log("✅ Login flow completed");
+
       
     } catch (err) {
       console.error('❌ Test failed:', err);
