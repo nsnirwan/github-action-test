@@ -50,18 +50,18 @@ async function launchApp() {
     console.log("✅ App launched!");
     try {
       // Example selectors (update these based on your app's accessibilityIds or names)
-      const userNameTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[1]/XCUIElementTypeGroup[2]/XCUIElementTypeTextField'
+      const userNameTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[1]/XCUIElementTypeTextField/XCUIElementTypeGroup'
 
 
       const userNameText = await driver.$(`-ios class chain:${userNameTextEl}`)
       await userNameText.setValue('studentdp1@testing.com') 
       
-      const passwordTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[1]/XCUIElementTypeGroup[3]'
+      const passwordTextEl = '**/XCUIElementTypeSecureTextField[`value == "Password"`]/XCUIElementTypeGroup'
       const passwordText = await driver.$(`-ios class chain:${passwordTextEl}`)
       await passwordText.setValue('rockpaper')
         
         
-      const loginButtonSelector = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[1]/XCUIElementTypeGroup[5]/XCUIElementTypeButton'
+      const loginButtonSelector = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[4]/XCUIElementTypeButton'
       const loginButton = await driver.$(`-ios class chain:${loginButtonSelector}`)
       await loginButton.click()
   
