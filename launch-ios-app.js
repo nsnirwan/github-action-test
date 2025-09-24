@@ -55,12 +55,12 @@ async function launchApp() {
       // 🔹 Email field
       const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
       await emailField.click();
-      await emailField.replaceValue('studentdp1@testing.com');
+      await emailField.setValue('studentdp1@testing.com');
 
       // 🔹 Password field (SecureTextField!)
       const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
       await passwordField.click();
-      await passwordField.replaceValue('rockpaper');
+      await passwordField.setValue('rockpaper');
 
       // 🔹 Login button
       const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
