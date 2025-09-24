@@ -50,21 +50,17 @@ async function launchApp() {
     console.log("✅ App launched!");
     try {
 
-      async function slowType(element, text, delay = 100) {
-        await element.click(); // focus once
-        for (const char of text) {
-          await element.addValue(char);  // type one character at a time
-          await new Promise(r => setTimeout(r, delay)); // wait
-        }
-      }
+      
       
       // 🔹 Email field (directly the TextField!)
       const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
-      await slowType(emailField, 'studentdp1@testing.com', 100);
+      emailField.click();
+      await emailField.setValue('studentdp1@testing.com');
       
       // 🔹 Password field (directly the SecureTextField!)
       const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
-      await slowType(passwordField, 'rockpaper', 100);
+      passwordField.click();
+      await passwordField.setValue('rockpaper');
       
       // 🔹 Login button
       const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
