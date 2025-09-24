@@ -51,32 +51,25 @@ async function launchApp() {
     try {
 
       async function slowType(element, text, delay = 100) {
+        await element.click(); // focus once
         for (const char of text) {
-          await element.addValue(char); // type one character at a time
+          await element.addValue(char);  // type one character at a time
           await new Promise(r => setTimeout(r, delay)); // wait
         }
       }
-      // Example selectors (update these based on your app's accessibilityIds or names)
-      const userNameTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[1]/XCUIElementTypeTextField/XCUIElementTypeGroup'
-
-      // 🔹 Email field
-      const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
-      await emailField.click();
-      await slowType(emailField, 'studentdp1@testing.com', 10); 
       
-
-      // 🔹 Password field (SecureTextField!)
+      // 🔹 Email field (directly the TextField!)
+      const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
+      await slowType(emailField, 'studentdp1@testing.com', 100);
+      
+      // 🔹 Password field (directly the SecureTextField!)
       const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
-      await passwordField.click();
-      await slowType(passwordField, 'rockpaper', 10); 
-
+      await slowType(passwordField, 'rockpaper', 100);
+      
       // 🔹 Login button
       const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
       await loginBtn.click();
-
-      console.log("✅ Login flow completed");
-
-
+      
       console.log("✅ Login flow completed");
       
     } catch (err) {
