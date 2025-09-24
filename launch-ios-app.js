@@ -49,18 +49,25 @@ async function launchApp() {
     await driver.pause(3000);
     console.log("✅ App launched!");
     try {
+
+      async function slowType(element, text, delay = 100) {
+        await element.click();
+        for (const char of text) {
+          await element.addValue(char); // type one character at a time
+          await new Promise(r => setTimeout(r, delay)); // wait
+        }
+      }
       // Example selectors (update these based on your app's accessibilityIds or names)
       const userNameTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[1]/XCUIElementTypeTextField/XCUIElementTypeGroup'
 
       // 🔹 Email field
       const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
-      await emailField.click();
-      await emailField.setValue('studentdp1@testing.com');
+      await slowType(emailField, 'studentdp1@testing.com', 100); 
+      
 
       // 🔹 Password field (SecureTextField!)
       const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
-      await passwordField.click();
-      await passwordField.setValue('rockpaper');
+      await slowType(passwordField, 'rockpaper', 100);
 
       // 🔹 Login button
       const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
