@@ -32,7 +32,7 @@ const { remote } = require('webdriverio');
 async function launchApp() {
   try {
     const driver = await remote({
-      hostname: '127.0.0.1',
+      hostname: 'http://127.0.0.1',
       port: 4723,
       path: '/',
       logLevel: 'info',
