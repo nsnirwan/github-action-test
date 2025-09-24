@@ -53,40 +53,42 @@ async function launchApp() {
       async function typeText(element, text, delay = 80) {
         await element.click();
       
-        // Try setValue first
+        // 1️⃣ Try fast setValue first
         await element.setValue(text);
         let currentValue = await element.getText();
       
         if (currentValue !== text) {
           console.warn(`⚠️ setValue failed (got "${currentValue}"), retrying with macOS keys...`);
           await element.clearValue();
-          
-          // Use macOS-level keystrokes (most reliable for WebView apps)
-          await driver.execute('macos: keys', { text });
-          
-          // Recheck
+      
+          // 2️⃣ Use macOS-level keystrokes
+          await driver.execute('macos: keys', { keys: text });
+      
+          // 3️⃣ Verify again
           currentValue = await element.getText();
           if (currentValue !== text) {
             console.error(`❌ Even macos: keys failed, last value: "${currentValue}"`);
           }
         }
       }
+      // Wait for login screen to appear      
       
 
       
-      // Email field
+      // Email
       const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
       await typeText(emailField, 'studentdp1@testing.com');
 
-      // Password field
+      // Password
       const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
       await typeText(passwordField, 'rockpaper');
 
-      // Login button
+      // Login
       const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
       await loginBtn.click();
 
       console.log("✅ Login flow completed");
+
 
 
       
