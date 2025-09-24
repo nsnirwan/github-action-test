@@ -50,31 +50,26 @@ async function launchApp() {
     console.log("✅ App launched!");
     try {
 
-      describe("Login Test", () => {
-        it("should enter email, password and click login", async () => {
-          // Locate Email field by placeholder
-          const emailField = await $('-ios predicate string:type == "XCUIElementTypeTextField" AND placeholderValue == "Email"');
-          await emailField.waitForDisplayed({ timeout: 10000 });
-          await emailField.click();
-          await emailField.setValue("studentdp1@testing.com");
+      const emailField = await $('-ios predicate string:type == "XCUIElementTypeTextField" AND placeholderValue == "Email"');
+      await emailField.waitForDisplayed({ timeout: 10000 });
+      await emailField.click();
+      await emailField.setValue("studentdp1@testing.com");
+  
+      // Locate Password field by placeholder
+      const passwordField = await $('-ios predicate string:type == "XCUIElementTypeSecureTextField" AND placeholderValue == "Password"');
+      await passwordField.waitForDisplayed({ timeout: 10000 });
+      await passwordField.click();
+      await passwordField.setValue("rockpaper");
+  
+      // Locate Login button by title
+      const loginBtn = await $('-ios predicate string:type == "XCUIElementTypeButton" AND title == "Login"');
+      await loginBtn.waitForDisplayed({ timeout: 10000 });
+      await loginBtn.click();
+  
+      // Optional: verify navigation or error
+      await driver.pause(3000);
       
-          // Locate Password field by placeholder
-          const passwordField = await $('-ios predicate string:type == "XCUIElementTypeSecureTextField" AND placeholderValue == "Password"');
-          await passwordField.waitForDisplayed({ timeout: 10000 });
-          await passwordField.click();
-          await passwordField.setValue("rockpaper");
-      
-          // Locate Login button by title
-          const loginBtn = await $('-ios predicate string:type == "XCUIElementTypeButton" AND title == "Login"');
-          await loginBtn.waitForDisplayed({ timeout: 10000 });
-          await loginBtn.click();
-      
-          // Optional: verify navigation or error
-          await driver.pause(3000);
-        });
-      });
-      
-
+      console.log("✅ test run!");
 
 
       
