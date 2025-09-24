@@ -61,7 +61,7 @@ async function launchApp() {
 
       // 🔹 Email field
       const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
-      await passwordField.click();
+      await emailField.click();
       await slowType(emailField, 'studentdp1@testing.com', 10); 
       
 
