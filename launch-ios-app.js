@@ -52,20 +52,30 @@ async function launchApp() {
       // Example selectors (update these based on your app's accessibilityIds or names)
       const userNameTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[1]/XCUIElementTypeTextField/XCUIElementTypeGroup'
 
+      // 🔹 Get all visible text fields on the screen
+      const textFields = await driver.$$('-ios class chain:**/XCUIElementTypeTextField');
 
-      const userNameText = await driver.$(`-ios class chain:${userNameTextEl}`)
-      await userNameText.replaceValue('studentdp1@testing.com') 
+      // Defensive check
+      if (textFields.length < 2) {
+        throw new Error(`Expected at least 2 text fields, but found ${textFields.length}`);
+      }
+
+      // 🔹 Enter username (first field)
+      await textFields[0].click();
+      await textFields[0].replaceValue('studentdp1@testing.com');
+
+      // 🔹 Enter password (second field)
+      await textFields[1].click();
+      await textFields[1].replaceValue('rockpaper');
+
+      // 🔹 Locate and click the login button
+      const loginButton = await driver.$(
+        '-ios class chain:**/XCUIElementTypeButton[`label == "Login"`]'
+      );
+      await loginButton.click();
+
+      console.log("✅ Login flow completed");
       
-      const passwordTextEl = '**/XCUIElementTypeSecureTextField[`value == "Password"`]/XCUIElementTypeGroup'
-      const passwordText = await driver.$(`-ios class chain:${passwordTextEl}`)
-      await passwordText.replaceValue('rockpaper')
-        
-        
-      const loginButtonSelector = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[4]/XCUIElementTypeButton'
-      const loginButton = await driver.$(`-ios class chain:${loginButtonSelector}`)
-      await loginButton.click()
-  
-      console.log('✅ Login test completed');
     } catch (err) {
       console.error('❌ Test failed:', err);
     }
