@@ -50,45 +50,44 @@ async function launchApp() {
     console.log("✅ App launched!");
     try {
 
-      // Slow typing helper
-      async function slowType(element, text, delay = 100) {
+      async function typeText(element, text, delay = 80) {
         await element.click();
-        for (const char of text) {
-          await element.addValue(char);
-          await new Promise(r => setTimeout(r, delay));
-        }
-      }
-
-      // Hybrid: try setValue, fallback to slowType if needed
-      async function typeText(element, text, delay = 100) {
-        await element.click();
-
-        // 1️⃣ Try fast method first
+      
+        // Try setValue first
         await element.setValue(text);
-
-        // 2️⃣ Verify typed value
-        const currentValue = await element.getText();
+        let currentValue = await element.getText();
+      
         if (currentValue !== text) {
-          console.warn(`⚠️ setValue failed (got "${currentValue}"), retrying with slowType...`);
-          await element.clearValue();         // clear first
-          await slowType(element, text, delay);
+          console.warn(`⚠️ setValue failed (got "${currentValue}"), retrying with macOS keys...`);
+          await element.clearValue();
+          
+          // Use macOS-level keystrokes (most reliable for WebView apps)
+          await driver.execute('macos: keys', { text });
+          
+          // Recheck
+          currentValue = await element.getText();
+          if (currentValue !== text) {
+            console.error(`❌ Even macos: keys failed, last value: "${currentValue}"`);
+          }
         }
       }
+      
 
       
       // Email field
       const emailField = await driver.$('//XCUIElementTypeTextField[@placeholderValue="Email"]');
-      await typeText(emailField, 'studentdp1@testing.com', 80);
+      await typeText(emailField, 'studentdp1@testing.com');
 
       // Password field
       const passwordField = await driver.$('//XCUIElementTypeSecureTextField[@placeholderValue="Password"]');
-      await typeText(passwordField, 'rockpaper', 80);
+      await typeText(passwordField, 'rockpaper');
 
       // Login button
       const loginBtn = await driver.$('//XCUIElementTypeButton[@title="Login"]');
       await loginBtn.click();
 
       console.log("✅ Login flow completed");
+
 
       
     } catch (err) {
