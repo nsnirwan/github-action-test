@@ -50,26 +50,54 @@ async function launchApp() {
     console.log("✅ App launched!");
     try {
 
-      async function typeText(element, text) {
-        await element.click();
-        await element.clearValue();
+      async function runTest() {
+        
+      //   let elementsOne = await driver.AccessibilityId("496FDF6F-ADBA-43FC-94A2-EAE63F35B28C");
+      //   console.log("batteyItem===>",batteryItem)
+        //let elementsOne =  await $('-ios class chain:**/XCUIElementTypeSecureTextField[`value == "Password"`]').setValue('testUser');
+        
       
-        // try normal sendKeys
-        await element.setValue(text);
-        let currentValue = await element.getText();
+      const userNameTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[1]/XCUIElementTypeTextField'
       
-        if (currentValue !== text) {
-          console.warn(`⚠️ setValue failed (got "${currentValue}"), retrying with macOS keys...`);
       
-          const chars = text.split('');
-          await driver.execute('macos: keys', [{ keys: chars }]);
+      const userNameText = await driver.$(`-ios class chain:${userNameTextEl}`)
+      await userNameText.setValue('studentdp1@testing.com') 
+       
+      const passwordTextEl = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[2]'
+      const passwordText = await driver.$(`-ios class chain:${passwordTextEl}`)
+      await passwordText.setValue('rockpaper')
+        
+        
+      const loginButtonSelector = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[3]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[4]/XCUIElementTypeButton'
+      const loginButton = await driver.$(`-ios class chain:${loginButtonSelector}`)
+      await loginButton.click()
       
-          currentValue = await element.getText();
-          if (currentValue !== text) {
-            console.error(`❌ Still mismatch, got "${currentValue}"`);
-          }
-        }
+      
+      // const quitnButtonSelector = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[1]/XCUIElementTypeGroup[10]/XCUIElementTypeButton'
+      // const quitButton = await driver.$(`-ios class chain:${quitnButtonSelector}`)
+      // await quitButton.click()
+      
+      
+      const quitnButtonSelector = '**/XCUIElementTypeWebView[`label == "AssessPrep - Online Assessment Platform for Every School"`]/XCUIElementTypeGroup[2]/XCUIElementTypeGroup[1]/XCUIElementTypeButton'
+      const quitButton = await driver.$(`-ios class chain:${quitnButtonSelector}`)
+      await quitButton.click()
+      
+      
+      
+      
+        
+        //await driver.setValueImmediate("496FDF6F-ADBA-43FC-94A2-EAE63F35B28C", "studentdp1@testing.com")
+      //   try {
+      //     const batteryItem = await driver.$('//*[@text="undefined_1_email"]');
+      //     console.log("batteyItem===>",batteryItem)
+      //     //await batteryItem.click();
+      //   } finally {
+      //     await driver.pause(1000);
+      //     await driver.deleteSession();
+      //   }
       }
+      
+      runTest().catch(console.error);
       
       // Wait for login screen to appear      
       
